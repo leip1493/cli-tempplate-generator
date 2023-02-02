@@ -1,15 +1,13 @@
 {
   "name": "cli-template-generator",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "main": "index.mjs",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "g": "node index.mjs"
   },
-  "bin": {
-    "generate": "./index.mjs"
-  },
+  "bin": "./index.mjs",
   "dependencies": {
     "commander": "^10.0.0",
     "glob": "^8.1.0",
