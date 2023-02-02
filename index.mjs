@@ -40,7 +40,7 @@ program
         const answers = await inquirer.prompt(QUESTIONS)
         const { name, serviceType } = answers
         const repository = repositoriesByType[serviceType]
-        const dest = `../${name}`
+        const dest = `./${name}`
         const git = simpleGit()
         try {
             await git.clone(repository, dest)
