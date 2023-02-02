@@ -34,7 +34,7 @@ program
 
         const repo = url
         const projectName = name
-        const dest = `../${projectName}`
+        const dest = `./${projectName}`
 
         const git = simpleGit()
         try {
