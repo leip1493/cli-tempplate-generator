@@ -1,9 +1,12 @@
+#!/usr/bin/env node
+
 import * as commander from 'commander'
-import gitClone from 'git-clone';
 import glob from 'glob';
-import replace from 'replace-in-file';
+// import replace from 'replace-in-file';
 import inquirer from 'inquirer'
 import simpleGit from 'simple-git'
+import ejs from 'ejs'
+import fs from 'fs'
 
 
 const program = commander.program
@@ -31,25 +34,46 @@ program
 
         const { name, url } = answers
 
+        // definir todas las variables a reemplazar
+        const data = {
+            env: {
+                parametroA: 'valorA',
+                header: {
+                    name: 'This is a header',
+                }
+            }
+        }
+
         console.log({ name, url });
 
-        const repo = url
+        const repo = 'https://github.com/LucasSequeDev/template-test'
         const projectName = name
         const dest = `../${projectName}`
 
         const git = simpleGit()
         try {
             const cloned = await git.clone(repo, dest)
-            console.log({ cloned })
-            const files = glob.sync(`${dest}/**/*.{js,ts,json}`)
-            const options = {
-                files,
-                from: /{{PARAMETRO_A_REEMPLAZAR}}/g,
-                to: projectName
-            }
-            const resp = await replace.replaceInFile(options)
-            console.log("REPLACE")
-            resp.forEach(r => console.log(r.file))
+            const files = glob.sync(`${dest}/**/*.ejs`)
+
+            // const options = {
+            //     files,
+            //     from: /{{PARAMETRO_A_REEMPLAZAR}}/g,
+            //     to: projectName
+            // }
+
+            files.map( file => {
+                const content = fs.readFileSync(file, 'utf8')
+                const newFile = ejs.render(content, { ...data } )
+
+                const newName = file.replace('.ejs', '')
+                
+                fs.writeFileSync(newName, newFile)
+                fs.rmSync(file)
+            })
+
+            // const resp = await replace.replaceInFi// le(options)
+            // console.log("REPLACE")
+            // resp.forEach(r => console.log(r.file))
         } catch (error) {
             return console.error(error)
         }
