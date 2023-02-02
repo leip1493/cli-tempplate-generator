@@ -5,12 +5,13 @@ import glob from 'glob';
 import inquirer from 'inquirer';
 import replace from 'replace-in-file';
 import simpleGit from 'simple-git';
-
+import fs from 'fs/promises'
+import packageJson from './package.json' assert { type: "json" }
 
 const program = commander.program
 
 program
-    .version('0.1.0')
+    .version(packageJson.version)
     .description('Test plantilla cli')
     .action(async () => {
         const questions = [
@@ -31,22 +32,22 @@ program
         const answers = await inquirer.prompt(questions)
 
         const { name, url } = answers
-
         console.log({ name, url });
-
-        const repo = url
-        const projectName = name
-        const dest = `./${projectName}`
-
+        const dest = `./${name}`
         const git = simpleGit()
         try {
-            const cloned = git.clone(repo, dest)
-            console.log({ cloned })
+            await git.clone(url, dest)
+            await git.cwd(dest)
+            const init = await git.init()
+            if (init.existing) {
+                await fs.rm(init.gitDir, { recursive: true, force: true })
+                await git.init()
+            }
             const files = glob.sync(`${dest}/**/*.{js,ts,json}`)
             const options = {
                 files,
                 from: /{{PARAMETRO_A_REEMPLAZAR}}/g,
-                to: projectName
+                to: name
             }
             const resp = await replace.replaceInFile(options)
             console.log("REPLACE")
