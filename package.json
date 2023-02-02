@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "g": "node index.mjs"
+    "generate": "node index.mjs"
   },
   "bin": "./index.mjs",
   "dependencies": {
