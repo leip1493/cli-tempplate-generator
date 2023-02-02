@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as commander from 'commander';
 import glob from 'glob';
 import inquirer from 'inquirer';
