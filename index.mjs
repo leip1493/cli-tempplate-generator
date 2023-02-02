@@ -1,9 +1,8 @@
-import * as commander from 'commander'
-import gitClone from 'git-clone';
+import * as commander from 'commander';
 import glob from 'glob';
+import inquirer from 'inquirer';
 import replace from 'replace-in-file';
-import inquirer from 'inquirer'
-import simpleGit from 'simple-git'
+import simpleGit from 'simple-git';
 
 
 const program = commander.program
@@ -23,7 +22,7 @@ program
                 type: 'input',
                 name: 'url',
                 message: 'URL del repositorio',
-
+                default: 'https://gitlab.com/cencosud-ds/cencommerce/post-purchase-experience/internal-customer-service/template/backend/tmp-graphql-experienciaposventa.git'
             }
         ]
 
@@ -39,7 +38,7 @@ program
 
         const git = simpleGit()
         try {
-            const cloned = await git.clone(repo, dest)
+            const cloned = git.clone(repo, dest)
             console.log({ cloned })
             const files = glob.sync(`${dest}/**/*.{js,ts,json}`)
             const options = {
