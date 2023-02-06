@@ -5,8 +5,8 @@ import ora from 'ora';
 import simpleGit from 'simple-git';
 
 const repositoriesByType = {
-    REST: 'https://gitlab.com/cencosud-ds/cencommerce/post-purchase-experience/internal-customer-service/template/backend/tmp-bff-experienciaposventa.git',
-    GraphQL: 'https://gitlab.com/cencosud-ds/cencommerce/post-purchase-experience/internal-customer-service/template/backend/tmp-graphql-experienciaposventa.git'
+    REST: 'lorem',
+    GraphQL: 'ipsum'
 }
 
 const QUESTIONS = [
