@@ -62,7 +62,7 @@ export function initializeTemplateCommand(program) {
                 // const resp = await replace.replaceInFile(options)            
                 // resp.forEach(r => console.log(r.file))
             } catch (error) {
-                spinner.stop
+                spinner.stop()
                 return console.error(error)
             }
         })
